@@ -1,14 +1,12 @@
+import { createDB } from "../../../lib/db";
+import { EditProfileForm } from "./EditProfileForm";
 import { cookies } from "next/headers";
-import Link from "next/link";
 import { redirect } from "next/navigation";
-import { createDB } from "../../lib/db";
 
-export default async function UserProfile() {
+export default async function EditProfilePage() {
   const cookieStore = cookies();
 
   const sessionUserId = cookieStore.get("session-user-id");
-
-  console.log("Session user id:", sessionUserId);
 
   if (sessionUserId == null) {
     redirect("/login");
@@ -31,12 +29,13 @@ export default async function UserProfile() {
   return (
     <div className="card bg-base-100 w-96 drop-shadow-md">
       <div className="card-body">
-        <p>{user.id}</p>
-        <p>{user.email}</p>
-        <p>{user.username}</p>
-        <p>{user.displayName}</p>
-        <Link href="/profile/posts">My Posts</Link>
-        <Link href="/profile/edit">Edit Profile</Link>
+        <h2 className="text-xl font-bold mb-4">Edit Profile</h2>
+        <EditProfileForm
+          id={user.id}
+          name={user.username}
+          email={user.email}
+          bio={user.displayName ?? ""}
+        />
       </div>
     </div>
   );
