@@ -25,4 +25,13 @@ export async function up(db: Kysely<unknown>): Promise<void> {
 		foreign key (user_id) references users (id),
 		foreign key (post_id) references posts (id)
 	) STRICT`.execute(db);
+
+	await sql`CREATE TABLE marketplace (
+		id integer primary key autoincrement not null,
+		name text not null,
+		description text not null,
+		price real not null,
+		category text not null,
+		created_at integer not null
+	) STRICT`.execute(db);
 }
